@@ -12,6 +12,7 @@ public static class RangosHandlers
     public static async Task<Results<NoContent, Ok<IEnumerable<RangoDTO>>>> GetRangosAsync
         (RangoDbContext rangoDbContext,
         IMapper mapper,
+        ILogger<RangoDTO> logger,
         [FromQuery(Name = "name")]string? rangoNome)
     {
 
@@ -19,9 +20,16 @@ public static class RangosHandlers
                                    .Where(x => rangoNome == null || x.Nome.ToLower().Contains(rangoNome.ToLower()))
                                    .ToListAsync();
         if (rangosEntity.Count <= 0 || rangosEntity == null)
+        {
+            logger.LogInformation($"Rango não encontrado. Parametro: {rangoNome}");
             return TypedResults.NoContent();
+        }
         else
+        {
+            logger.LogInformation("Retornando o Rango encontrado.");
             return TypedResults.Ok(mapper.Map<IEnumerable<RangoDTO>>(rangosEntity));
+        }
+            
 
     }
 
