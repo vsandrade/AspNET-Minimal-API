@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using RangoAgil.API.Entities;
 
 namespace RangoAgil.API.DbContexts;
 
-public class RangoDbContext(DbContextOptions<RangoDbContext> options) : DbContext(options)
+public class RangoDbContext(DbContextOptions<RangoDbContext> options) : IdentityDbContext(options)
 {
     public DbSet<Rango> Rangos { get; set; } = null!;
     public DbSet<Ingrediente> Ingredientes { get; set;} = null!;
